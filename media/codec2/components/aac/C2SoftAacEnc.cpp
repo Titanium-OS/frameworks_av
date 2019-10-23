@@ -535,6 +535,10 @@ void C2SoftAacEnc::process(
                 inBuffer[0] = const_cast<uint8_t *>(data);
                 inBufferSize[0] = capacity;
                 inargs.numInSamples = capacity / sizeof(int16_t);
+            } else if (outargs.numInSamples > 0) {
+                inBuffer[0] = (int16_t *)inBuffer[0] + outargs.numInSamples;
+                inBufferSize[0] -= outargs.numInSamples * sizeof(int16_t);
+                inargs.numInSamples -= outargs.numInSamples;
             }
         }
         ALOGV("encoderErr = %d mInputSize = %zu "
